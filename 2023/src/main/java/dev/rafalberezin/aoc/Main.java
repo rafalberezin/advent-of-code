@@ -1,9 +1,11 @@
 package dev.rafalberezin.aoc;
 
+import dev.rafalberezin.aoc.solution.*;
 import dev.rafalberezin.aoc.util.Input;
 
 public class Main {
 	private static final Day[] DAYS = {
+		new Day1(),
 	};
 
 	private static final String USAGE_INFO = """

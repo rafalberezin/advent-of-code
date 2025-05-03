@@ -14,7 +14,7 @@ public class Input {
 	private final Path path;
 
 	public Input(byte day, boolean example) {
-		this(day, example, Part.Single);
+		this(day, example, Part.SINGLE);
 	}
 
 	private Input(byte day, boolean example, Part part) {
@@ -55,19 +55,19 @@ public class Input {
 	}
 
 	public enum Part {
-		Single(""),
-		Part1(".part1"),
-		Part2(".part2"),
+		SINGLE(""),
+		PART_1(".part1"),
+		PART_2(".part2"),
 		;
 
-		private final String part;
+		private final String postfix;
 
 		Part(String part) {
-			this.part = part;
+			this.postfix = part;
 		}
 
 		public String toString() {
-			return part;
+			return postfix;
 		}
 	}
 }
