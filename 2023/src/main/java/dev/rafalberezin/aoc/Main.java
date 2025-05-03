@@ -6,6 +6,7 @@ import dev.rafalberezin.aoc.util.Input;
 public class Main {
 	private static final Day[] DAYS = {
 		new Day1(),
+		new Day2(),
 	};
 
 	private static final String USAGE_INFO = """
