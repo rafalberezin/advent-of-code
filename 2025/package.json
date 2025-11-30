@@ -1,0 +1,19 @@
+{
+	"name": "aoc-2025",
+	"version": "1.0.0",
+	"description": "Advent of Code 2025",
+	"private": true,
+	"main": "src/index.ts",
+	"scripts": {
+		"solve": "tsx src/index.ts"
+	},
+	"author": "Rafał Berezin",
+	"license": "MIT",
+	"packageManager": "pnpm@10.14.0",
+	"devDependencies": {
+		"@types/node": "^24.10.1",
+		"prettier": "^3.7.3",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3"
+	}
+}

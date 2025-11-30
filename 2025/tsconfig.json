@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"strict": true,
+		"noEmit": true,
+		"forceConsistentCasingInFileNames": true,
+		"paths": {
+			"$lib/*": ["./src/lib/*"],
+			"$types/*": ["./src/types/*"]
+		}
+	},
+	"include": ["src/**/*.ts"]
+}
