@@ -14,8 +14,8 @@ function main() {
 	}
 
 	const dayNum = parseInt(args[0])
-	if (Number.isNaN(dayNum) || dayNum < 1 || dayNum > 25) {
-		printWithBorder('Day must be a number between 1 and 25')
+	if (Number.isNaN(dayNum) || dayNum < 1 || dayNum > 12) {
+		printWithBorder('Day must be a number between 1 and 12')
 		return
 	}
 

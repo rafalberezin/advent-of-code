@@ -2,7 +2,7 @@
 
 To run the solution use: `pnpm solve <day> [<part>] [-e]`.
 
-- Day is a number between 1 and 25.
+- Day is a number between 1 and 12.
 - Part is either 1 or 2. Don't specify part to run both.
 - Use `-e` flag to run the solution with the example input.
 
