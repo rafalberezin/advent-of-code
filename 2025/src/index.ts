@@ -63,7 +63,7 @@ function runPart(day: Day, part: '1' | '2', input: InputFile) {
 		const elapsed = performance.now() - startTime
 
 		console.log(`├ ✔ Solution: ${solution}`)
-		console.log(`└ ~ Time: ${elapsed.toFixed(2)}ms`)
+		console.log(`└ ~ Time: ${elapsed.toFixed(3)}ms`)
 	} catch (e) {
 		console.log(`└ ❌ An error occured: ${e instanceof Error ? e.message : e}`)
 	}
