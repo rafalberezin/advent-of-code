@@ -4,13 +4,20 @@ dispatch minecraft:storage[aoc:state] to struct StorageState {
 		iter: Stack<Iterator>,
 		args?: any,
 		return?: any,
-	}
+	},
 }
 
 dispatch minecraft:storage[aoc:temp] to struct StorageTemp {
 	"/": struct {
 		"any"?: any,
-	}
+		split?: struct {
+			data: string,
+			sep: string,
+			start: int,
+			end: int,
+			result: [string],
+		},
+	},
 }
 
 type Stack<T> = [T]
