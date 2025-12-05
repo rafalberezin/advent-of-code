@@ -1,0 +1,28 @@
+dispatch minecraft:storage[aoc:state] to struct StorageState {
+	"/": struct {
+		input: string,
+		iter: Stack<Iterator>,
+		args?: any,
+		return?: any,
+	}
+}
+
+dispatch minecraft:storage[aoc:temp] to struct StorageTemp {
+	"/": struct {
+		"any"?: any,
+	}
+}
+
+type Stack<T> = [T]
+
+type Iterator = struct {
+	data: Iterable,
+	element: IterableElement,
+	fn: Function,
+	index: int @ 0..
+}
+
+type Iterable = (string | [any])
+type IterableElement = (string @ 1 | any)
+
+type Function = #[id="function"] string

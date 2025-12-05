@@ -1,0 +1,4 @@
+{
+	"replace": false,
+	"values": ["aoc.internal:load"]
+}

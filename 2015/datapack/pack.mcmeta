@@ -1,0 +1,17 @@
+{
+	"pack": {
+		"description": [
+			"",
+			{ "text": "Advent of Code", "color": "#edb97e" },
+			{ "text": "2015", "color": "#5991ec" },
+			{ "text": "solutions", "color": "white" }
+		],
+		"pack_format": 88,
+		"supported_formats": {
+			"min_inclusive": 48,
+			"max_inclusive": 88
+		},
+		"min_format": 48,
+		"max_format": 88
+	}
+}
