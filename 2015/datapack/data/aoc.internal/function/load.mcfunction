@@ -12,3 +12,4 @@ data modify storage aoc:state / set value { \
 	iter: [], \
 }
 
+function aoc.internal:scoreboard/const
