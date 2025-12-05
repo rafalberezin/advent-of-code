@@ -8,6 +8,7 @@ const REL = path.join(ROOT, '..', 'solutions')
 export interface InputFile {
 	lines(): string[]
 	string(): string
+	grid(): string[][]
 	digitGrid(): number[][]
 }
 
@@ -27,6 +28,7 @@ function inputFile(file: string): InputFile {
 	return {
 		lines: () => lines(file),
 		string: () => string(file),
+		grid: () => grid(file),
 		digitGrid: () => digitGrid(file),
 	}
 }
@@ -37,6 +39,10 @@ function lines(file: string): string[] {
 
 function string(file: string): string {
 	return fs.readFileSync(file).toString().trimEnd()
+}
+
+function grid(file: string): string[][] {
+	return lines(file).map(row => row.split(''))
 }
 
 function digitGrid(file: string): number[][] {
