@@ -62,3 +62,16 @@ export function countAdjacent<T>(
 
 	return count
 }
+
+export function transpose<T>(grid: T[][]): T[][] {
+	const colSize = grid[0].length
+	const transposed = new Array(colSize).fill(0).map(_ => new Array(grid.length))
+
+	for (let row = 0; row < grid.length; row++) {
+		for (let col = 0; col < colSize; col++) {
+			transposed[col][row] = grid[row][col]
+		}
+	}
+
+	return transposed
+}
