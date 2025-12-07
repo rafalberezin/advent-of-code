@@ -34,13 +34,13 @@ function part1(inputFile: InputFile) {
 }
 
 function part2(inputFile: InputFile) {
-	const lines = inputFile.lines()
-	const columnSize = lines.length
+	const grid = inputFile.grid()
+	const columnSize = grid.length
 
-	const operations = lines[columnSize - 1]
-	const values = transpose(
-		lines.slice(0, columnSize - 1).map(line => line.split('')),
-	).map(line => line.join('').trim())
+	const operations = grid[columnSize - 1]
+	const values = transpose(grid.slice(0, columnSize - 1)).map(line =>
+		line.join('').trim(),
+	)
 
 	let result = 0
 	let opAdd = operations[0] === '+'

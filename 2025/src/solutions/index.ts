@@ -6,6 +6,7 @@ import day3 from './day3'
 import day4 from './day4'
 import day5 from './day5'
 import day6 from './day6'
+import day7 from './day7'
 
 const solutions: Record<`day${number}`, Day> = {
 	day1,
@@ -14,6 +15,7 @@ const solutions: Record<`day${number}`, Day> = {
 	day4,
 	day5,
 	day6,
+	day7,
 }
 
 export default solutions
