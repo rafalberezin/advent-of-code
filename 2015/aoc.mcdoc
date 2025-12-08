@@ -4,6 +4,9 @@ dispatch minecraft:storage[aoc:state] to struct StorageState {
 		iter: Stack<Iterator>,
 		args?: any,
 		return?: any,
+		data: struct {
+			[string]: any
+		}
 	},
 }
 
@@ -33,3 +36,12 @@ type Iterable = (string | [any])
 type IterableElement = (string @ 1 | any)
 
 type Function = #[id="function"] string
+
+type Map<T> = struct {
+	data: struct {
+		[string]: T,
+	},
+	size: int @ 0..,
+}
+
+type Set = Map<0>

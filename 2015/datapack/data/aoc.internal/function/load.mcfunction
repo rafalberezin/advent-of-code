@@ -10,6 +10,7 @@ data modify storage aoc:temp / set value {}
 data modify storage aoc:state / set value { \
 	input: "", \
 	iter: [], \
+	data: {}, \
 }
 
 function aoc.internal:scoreboard/const
