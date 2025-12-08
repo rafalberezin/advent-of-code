@@ -1,3 +1,4 @@
+import { newDSU } from '$lib/dsu'
 import type { InputFile } from '$lib/input'
 import type { Day } from '$types/day'
 
@@ -6,15 +7,17 @@ export default {
 	part2,
 } satisfies Day
 
-// Is it just me or is the hardest part
-// of this puzzle understanding what
-// needs to be done? (part 1 at least)
+// Is it just me or is the puzzle
+// explanation slightly misleading?
 
-type JunctionBoxID = number
-type Distance = number
-type Circuit = JunctionBoxID[]
+interface ConnectionTable {
+	from: Uint32Array
+	to: Uint32Array
+	distance: Float64Array
+	index: Uint32Array
+}
+
 type Point3D = [number, number, number]
-type ConnectionWithDistance = [JunctionBoxID, JunctionBoxID, Distance]
 
 const MAX_CONNECTIONS_INPUT = 1000
 const MAX_CONNECTIONS_EXAMPLE = 10
@@ -26,35 +29,35 @@ function part1(inputFile: InputFile) {
 		: MAX_CONNECTIONS_INPUT
 
 	const connections = getConnectionsSortedByDistance(junctionBoxes)
-	const circuits: Circuit[] = []
+	const circuits = newDSU(junctionBoxes.length)
 
-	for (const connection of connections.slice(0, maxConnections)) {
-		connect(circuits, connection)
+	for (const i of connections.index.slice(0, maxConnections)) {
+		circuits.union(connections.from[i], connections.to[i])
 	}
 
-	circuits.sort((a, b) => b.length - a.length)
-	return circuits[0].length * circuits[1].length * circuits[2].length
+	return circuits
+		.roots()
+		.map(root => circuits.size(root))
+		.sort((a, b) => b - a)
+		.slice(0, 3)
+		.reduce((acc, val) => acc * val, 1)
 }
 
 function part2(inputFile: InputFile) {
 	const junctionBoxes = parsePoints3D(inputFile)
 	const connections = getConnectionsSortedByDistance(junctionBoxes)
-	const circuits: Circuit[] = []
+	const circuits = newDSU(junctionBoxes.length)
 
-	let lastConnection = connections[0]
-	for (const connection of connections) {
-		if (circuits.length === 1 && circuits[0].length === junctionBoxes.length) {
-			return (
-				junctionBoxes[lastConnection[0]][0] *
-				junctionBoxes[lastConnection[1]][0]
-			)
+	for (const i of connections.index) {
+		const from = connections.from[i]
+		const to = connections.to[i]
+
+		circuits.union(connections.from[i], connections.to[i])
+
+		if (circuits.size(0) === junctionBoxes.length) {
+			return junctionBoxes[from][0] * junctionBoxes[to][0]
 		}
-
-		lastConnection = connection
-		connect(circuits, connection)
 	}
-
-	throw new Error('could not connect all junction boxes for some reason')
 }
 
 function parsePoints3D(inputFile: InputFile): Point3D[] {
@@ -75,42 +78,34 @@ function parsePoints3D(inputFile: InputFile): Point3D[] {
 	})
 }
 
-function getConnectionsSortedByDistance(positions: Point3D[]): Point3D[] {
-	const distances: ConnectionWithDistance[] = []
+function getConnectionsSortedByDistance(positions: Point3D[]): ConnectionTable {
+	const size = (positions.length * (positions.length - 1)) / 2
 
-	for (let i = 0; i < positions.length; i++) {
-		const from = positions[i]
-		for (let j = i + 1; j < positions.length; j++) {
-			const to = positions[j]
-			const distSquared =
-				(to[0] - from[0]) ** 2 + (to[1] - from[1]) ** 2 + (to[2] - from[2]) ** 2
-			distances.push([i, j, distSquared])
+	const from = new Uint32Array(size)
+	const to = new Uint32Array(size)
+	const distance = new Float64Array(size)
+	const index = new Uint32Array(size)
+
+	let i = 0
+	for (let f = 0; f < positions.length; f++) {
+		const fromPoint = positions[f]
+
+		for (let t = f + 1; t < positions.length; t++) {
+			const toPoint = positions[t]
+
+			const distanceSquared =
+				(toPoint[0] - fromPoint[0]) ** 2 +
+				(toPoint[1] - fromPoint[1]) ** 2 +
+				(toPoint[2] - fromPoint[2]) ** 2
+
+			from[i] = f
+			to[i] = t
+			distance[i] = distanceSquared
+			index[i] = i++
 		}
 	}
-	distances.sort((a, b) => a[2] - b[2])
 
-	return distances
-}
+	index.sort((a, b) => distance[a] - distance[b])
 
-function connect(circuits: Circuit[], connection: Point3D) {
-	const [from, to] = connection
-
-	const fromCircuitId = circuits.findIndex(circuit => circuit.includes(from))
-	const toCircuitId = circuits.findIndex(circuit => circuit.includes(to))
-	const fromCircuit = circuits[fromCircuitId]
-	const toCircuit = circuits[toCircuitId]
-
-	if (fromCircuitId >= 0) {
-		if (fromCircuit.includes(to)) return
-		if (toCircuitId === -1) return fromCircuit.push(to)
-
-		circuits[fromCircuitId] = fromCircuit.concat(toCircuit)
-		circuits.splice(toCircuitId, 1)
-
-		return
-	}
-
-	if (toCircuitId === -1) return circuits.push([from, to])
-
-	if (!toCircuit.includes(from)) toCircuit.push(from)
+	return { from, to, distance, index }
 }
