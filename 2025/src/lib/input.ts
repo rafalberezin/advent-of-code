@@ -10,6 +10,7 @@ export interface InputFile {
 	string(): string
 	grid(): string[][]
 	digitGrid(): number[][]
+	isExample(): boolean
 }
 
 export function loadInput(day: number): InputFile {
@@ -25,11 +26,14 @@ function inputFile(file: string): InputFile {
 		throw new Error(`file '${file}' doesn't exist`)
 	}
 
+	const example = file.endsWith('example.txt')
+
 	return {
 		lines: () => lines(file),
 		string: () => string(file),
 		grid: () => grid(file),
 		digitGrid: () => digitGrid(file),
+		isExample: () => example,
 	}
 }
 
