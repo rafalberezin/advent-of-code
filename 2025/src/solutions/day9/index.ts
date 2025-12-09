@@ -1,5 +1,5 @@
 import type { InputFile } from '$lib/input'
-import { parsePoints, Point2D } from '$lib/point'
+import { parsePoints, pointInPolygon } from '$lib/point'
 import type { Day } from '$types/day'
 export default {
 	part1,
@@ -55,11 +55,7 @@ function part2(inputFile: InputFile) {
 		const [rxMin, rxMax, ryMin, ryMax, area] = rectangle
 
 		let ok = true
-		let prev = tiles.length - 1
-		for (let f = 0; f < tiles.length; f++) {
-			const t = prev
-			prev = f
-
+		for (let f = 0, t = tiles.length - 1; f < tiles.length; t = f++) {
 			const from = tiles[f]
 			const to = tiles[t]
 
@@ -89,6 +85,7 @@ function part2(inputFile: InputFile) {
 			}
 		}
 
-		if (ok) return area
+		// The additional check is not necessary for the given input
+		if (ok && pointInPolygon([rxMin + 1, ryMin + 1], tiles)) return area
 	}
 }
