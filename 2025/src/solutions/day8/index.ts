@@ -1,5 +1,6 @@
 import { newDSU } from '$lib/dsu'
 import type { InputFile } from '$lib/input'
+import { parsePoints, Point3D } from '$lib/point'
 import type { Day } from '$types/day'
 
 export default {
@@ -17,13 +18,11 @@ interface ConnectionTable {
 	index: Uint32Array
 }
 
-type Point3D = [number, number, number]
-
 const MAX_CONNECTIONS_INPUT = 1000
 const MAX_CONNECTIONS_EXAMPLE = 10
 
 function part1(inputFile: InputFile) {
-	const junctionBoxes = parsePoints3D(inputFile)
+	const junctionBoxes = parsePoints(inputFile.lines(), 3)
 	const maxConnections = inputFile.isExample()
 		? MAX_CONNECTIONS_EXAMPLE
 		: MAX_CONNECTIONS_INPUT
@@ -44,7 +43,7 @@ function part1(inputFile: InputFile) {
 }
 
 function part2(inputFile: InputFile) {
-	const junctionBoxes = parsePoints3D(inputFile)
+	const junctionBoxes = parsePoints(inputFile.lines(), 3)
 	const connections = getConnectionsSortedByDistance(junctionBoxes)
 	const circuits = newDSU(junctionBoxes.length)
 
@@ -58,24 +57,6 @@ function part2(inputFile: InputFile) {
 			return junctionBoxes[from][0] * junctionBoxes[to][0]
 		}
 	}
-}
-
-function parsePoints3D(inputFile: InputFile): Point3D[] {
-	return inputFile.lines().map(line => {
-		const nums = line.split(',')
-
-		if (nums.length !== 3) {
-			throw new Error(
-				`expected 3 numbers in a line, got ${nums.length}: ${line}`,
-			)
-		}
-
-		return nums.map(str => {
-			const num = parseInt(str)
-			if (Number.isNaN(num)) throw new Error(`could not parse int: ${str}`)
-			return num
-		}) as Point3D
-	})
 }
 
 function getConnectionsSortedByDistance(positions: Point3D[]): ConnectionTable {
